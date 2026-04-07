@@ -11,3 +11,6 @@ Exponer funcionalidades mediante una consola interactiva
 Nombre de integrantes:
 - Marcos Valor
 - Bruno Giovanola
+- Mauro Flores
+- Julián Álvarez
+- Cesar Augusto Cisneros Flores
