@@ -26,7 +26,6 @@ namespace TaskFlow
 
     class GestorTareas
     {
-        private List<Tarea> tareas = new List<Tarea>();
         private int contador = 1;
 
         public void CrearTarea(string nombre, string descripcion)
@@ -36,14 +35,6 @@ namespace TaskFlow
             Console.WriteLine("Tarea creada exitosamente.");
         }
 
-        public void ListarTareas()
-        {
-            Console.WriteLine("Lista de Tareas:");
-            foreach (var tarea in tareas)
-            {
-                Console.WriteLine(tarea);
-            }
-        }
     }
 
     class Program
