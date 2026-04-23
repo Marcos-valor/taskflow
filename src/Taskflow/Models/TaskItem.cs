@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Taskflow.Models
+namespace TaskFlow.Models
 {
-    internal class TaskItem
+    public class TaskItem
     {
         public int Id { get; set; }
         public string Titulo { get; set; }

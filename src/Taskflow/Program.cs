@@ -19,7 +19,8 @@ namespace TaskFlow
                 Console.Clear();
                 Console.WriteLine("=== TaskFlow ===\n");
                 Console.WriteLine("1. Crear tarea");
-                Console.WriteLine("2. Salir");
+                Console.WriteLine("2. Listar tareas");
+                Console.WriteLine("3. Salir");
                 Console.Write("\nElegí una opción: ");
 
                 string opcion = Console.ReadLine();
@@ -51,8 +52,15 @@ namespace TaskFlow
                         break;
 
                     case "2":
-                        salir = true;
+                        Console.Clear();
+                        Console.WriteLine("=== Listar tareas ===\n");
+                        taskService.ListarTareas();
+                        Console.ReadKey();
                         break;
+
+                    case "3":
+                        salir = true;
+                    break;
 
                     default:
                         Console.WriteLine("\n✗ Opción inválida.");
