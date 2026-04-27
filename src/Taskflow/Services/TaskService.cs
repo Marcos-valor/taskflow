@@ -48,5 +48,28 @@ namespace TaskFlow.Services
                 Console.WriteLine(new string('-', 60));
             }
         }
+        public void EstadoTarea(int id, string nuevoEstado)
+        {
+            var tarea = _tasks.FirstOrDefault(t => t.Id == id);
+
+            if (tarea == null)
+            {
+                Console.WriteLine($"\n✗ No existe una tarea con ID {id}");
+                return;
+            }
+
+            var estadosValidos = new List<string> { "Pendiente", "En progreso", "Completada" };
+
+            if (!estadosValidos.Contains(nuevoEstado))
+            {
+                Console.WriteLine("\n✗ Estado inválido.");
+                return;
+            }
+
+            tarea.Estado = nuevoEstado;
+            tarea.FechaActualizacion = DateTime.Now;
+
+            Console.WriteLine($"\n✓ Estado de la tarea {id} actualizado a '{nuevoEstado}'");
+        }
     }
 }
