@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using TaskFlow.Models;
 
 namespace TaskFlow.Services
@@ -8,6 +9,12 @@ namespace TaskFlow.Services
     public class TaskService
     {
         private List<TaskItem> _tasks = new List<TaskItem>();
+        private readonly string _filePath = "data/tasks.json";
+
+        public TaskService()
+        {
+            CargarTareas();
+        }
 
         public void CrearTarea(string titulo, string descripcion, string responsable)
         {
@@ -21,6 +28,7 @@ namespace TaskFlow.Services
                 FechaCreacion = DateTime.Now
             };
             _tasks.Add(tarea);
+            GuardarTareas();
             Console.WriteLine($"\n Tarea '{titulo}' creada correctamente con ID {tarea.Id}");
         }
 
@@ -68,8 +76,42 @@ namespace TaskFlow.Services
 
             tarea.Estado = nuevoEstado;
             tarea.FechaActualizacion = DateTime.Now;
+            GuardarTareas();
 
             Console.WriteLine($"\n✓ Estado de la tarea {id} actualizado a '{nuevoEstado}'");
+        }
+
+        private void CargarTareas()
+        {
+            try
+            {
+
+                if (File.Exists(_filePath))
+              {
+                string json = File.ReadAllText(_filePath);
+                _tasks = JsonSerializer.Deserialize<List<TaskItem>>(json) 
+                        ?? new List<TaskItem>();
+              }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar tareas: {ex.Message}");
+                _tasks = new List<TaskItem>();
+            }
+        }
+
+        private void GuardarTareas()
+        {
+            try
+            {
+                Directory.CreateDirectory("data");
+                string json = JsonSerializer.Serialize(_tasks, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_filePath, json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al guardar tareas: {ex.Message}");
+            }
         }
     }
 }
