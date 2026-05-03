@@ -114,6 +114,12 @@ namespace TaskFlow.Services
             }
         }
 
+
+        public bool ExisteTarea(int id)
+        {
+            return _tasks.Any(t => t.Id == id);
+        }
+
         public void ActualizarResponsable(int id, string nuevoResponsable)
         {
             var tarea = _tasks.FirstOrDefault(t => t.Id == id);
@@ -143,5 +149,6 @@ namespace TaskFlow.Services
 
             Console.WriteLine($"\n✓ Responsable de la tarea {id} actualizado a '{nuevoResponsable}'");
         }
+        
     }
 }

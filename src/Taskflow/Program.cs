@@ -108,7 +108,14 @@ namespace TaskFlow
                         Console.Write("ID de la tarea: ");
                         if (!int.TryParse(Console.ReadLine(), out int idResponsable))
                         {
-                            Console.WriteLine("ID inválido");
+                            Console.WriteLine("\n✗ ID inválido");
+                            Console.ReadKey();
+                            break;
+                        }
+
+                        if (!taskService.ExisteTarea(idResponsable))
+                        {
+                            Console.WriteLine($"\n✗ No existe una tarea con ID {idResponsable}");
                             Console.ReadKey();
                             break;
                         }
