@@ -113,5 +113,35 @@ namespace TaskFlow.Services
                 Console.WriteLine($"Error al guardar tareas: {ex.Message}");
             }
         }
+
+        public void ActualizarResponsable(int id, string nuevoResponsable)
+        {
+            var tarea = _tasks.FirstOrDefault(t => t.Id == id);
+
+            if (tarea == null)
+            {
+                Console.WriteLine($"\n✗ No existe una tarea con ID {id}");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(nuevoResponsable))
+            {
+                Console.WriteLine("\n✗ Responsable inválido.");
+                return;
+            }
+
+            if (tarea.Responsable == nuevoResponsable)
+            {
+                Console.WriteLine("\n⚠ El responsable ya es el mismo.");
+                return;
+            }
+
+            tarea.Responsable = nuevoResponsable;
+            tarea.FechaActualizacion = DateTime.Now;
+
+            GuardarTareas();
+
+            Console.WriteLine($"\n✓ Responsable de la tarea {id} actualizado a '{nuevoResponsable}'");
+        }
     }
 }

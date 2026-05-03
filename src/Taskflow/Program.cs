@@ -21,7 +21,8 @@ namespace TaskFlow
                 Console.WriteLine("1. Crear tarea");
                 Console.WriteLine("2. Listar tareas");
                 Console.WriteLine("3. Cambiar estado de tarea");
-                Console.WriteLine("4. Salir");
+                Console.WriteLine("4. Actualizar responsable");
+                Console.WriteLine("5. Salir");
                 Console.Write("\nElegí una opción: ");
 
                 string opcion = Console.ReadLine();
@@ -101,6 +102,26 @@ namespace TaskFlow
                         break;
 
                     case "4":
+                        Console.Clear();
+                        Console.WriteLine("=== Actualizar responsable ===\n");
+
+                        Console.Write("ID de la tarea: ");
+                        if (!int.TryParse(Console.ReadLine(), out int idResponsable))
+                        {
+                            Console.WriteLine("ID inválido");
+                            Console.ReadKey();
+                            break;
+                        }
+
+                        Console.Write("Nuevo responsable: ");
+                        string nuevoResponsable = Console.ReadLine();
+
+                        taskService.ActualizarResponsable(idResponsable, nuevoResponsable);
+
+                        Console.ReadKey();
+                        break;
+
+                    case "5":
                         salir = true;
                         break;
 
