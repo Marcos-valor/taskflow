@@ -18,6 +18,11 @@ namespace TaskFlow.Services
 
         public void CrearTarea(string titulo, string descripcion, string responsable)
         {
+            if (!EsResponsableValido(responsable))
+            {
+                Console.WriteLine("\n✗ Responsable inválido. Debe tener al menos 3 letras y no contener números, espacios al inicio o al final ni caracteres especiales.");
+                return;
+            }
             var tarea = new TaskItem
             {
                 Id = _tasks.Count + 1,
@@ -100,6 +105,21 @@ namespace TaskFlow.Services
             }
         }
 
+        private bool EsResponsableValido(string responsable)
+        {
+            if (string.IsNullOrWhiteSpace(responsable))
+                return false;
+
+            
+            if (responsable != responsable.Trim())
+                return false;
+
+            if (responsable.Length < 3)
+                return false;
+
+            return responsable.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+        }
+
         private void GuardarTareas()
         {
             try
@@ -130,9 +150,9 @@ namespace TaskFlow.Services
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(nuevoResponsable))
+            if (!EsResponsableValido(nuevoResponsable))
             {
-                Console.WriteLine("\n✗ Responsable inválido.");
+                Console.WriteLine("\n✗ Responsable inválido. Debe tener al menos 3 letras y no contener números, espacios al inicio o al final ni caracteres especiales.");
                 return;
             }
 
