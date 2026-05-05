@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using TaskFlow.Models;
+using Taskflow.Utils;
 
 namespace TaskFlow.Services
 {
@@ -20,7 +21,7 @@ namespace TaskFlow.Services
         {
             if (!EsResponsableValido(responsable))
             {
-                Console.WriteLine("\n✗ Responsable inválido. Debe tener al menos 3 letras y no contener números, espacios al inicio o al final ni caracteres especiales.");
+                ConsoleHelper.MostrarError("\n✗ Responsable inválido. Debe tener al menos 3 letras y no contener números, espacios al inicio o al final ni caracteres especiales.");
                 return;
             }
             var tarea = new TaskItem
@@ -34,7 +35,7 @@ namespace TaskFlow.Services
             };
             _tasks.Add(tarea);
             GuardarTareas();
-            Console.WriteLine($"\n Tarea '{titulo}' creada correctamente con ID {tarea.Id}");
+            ConsoleHelper.MostrarExito($"\n Tarea '{titulo}' creada correctamente con ID {tarea.Id}");
         }
 
         public void ListarTareas(string filtro = "todas")
@@ -49,16 +50,16 @@ namespace TaskFlow.Services
 
             if (!tareasFiltradas.Any())
             {
-                Console.WriteLine("\nNo hay tareas para mostrar.");
+                ConsoleHelper.MostrarInfo("\nNo hay tareas para mostrar.");
                 return;
             }
 
-            Console.WriteLine("\n===== LISTADO DE TAREAS =====");
+            ConsoleHelper.MostrarTitulo("\LISTADO DE TAREAS");
             foreach (var t in tareasFiltradas)
             {
-                Console.WriteLine($"ID: {t.Id} | Titulo: {t.Titulo} | Responsable: {t.Responsable} | Estado: {t.Estado}");
-                Console.WriteLine($"   Creada: {t.FechaCreacion:dd/MM/yyyy HH:mm} | Modificada: {(t.FechaActualizacion.HasValue ? t.FechaActualizacion.Value.ToString("dd/MM/yyyy HH:mm") : "Sin modificaciones")}");
-                Console.WriteLine(new string('-', 60));
+                ConsoleHelper.MostrarInfo($"ID: {t.Id} | Titulo: {t.Titulo} | Responsable: {t.Responsable} | Estado: {t.Estado}");
+                ConsoleHelper.MostrarInfo($"   Creada: {t.FechaCreacion:dd/MM/yyyy HH:mm} | Modificada: {(t.FechaActualizacion.HasValue ? t.FechaActualizacion.Value.ToString("dd/MM/yyyy HH:mm") : "Sin modificaciones")}");
+                ConsoleHelper.MostrarInfo(new string('-', 60));
             }
         }
         public void EstadoTarea(int id, string nuevoEstado)
@@ -67,7 +68,7 @@ namespace TaskFlow.Services
 
             if (tarea == null)
             {
-                Console.WriteLine($"\n✗ No existe una tarea con ID {id}");
+                ConsoleHelper.MostrarError($"\n✗ No existe una tarea con ID {id}");
                 return;
             }
 
@@ -75,7 +76,7 @@ namespace TaskFlow.Services
 
             if (!estadosValidos.Contains(nuevoEstado))
             {
-                Console.WriteLine("\n✗ Estado inválido.");
+                ConsoleHelper.MostrarError("\n✗ Estado inválido.");
                 return;
             }
 
@@ -83,7 +84,7 @@ namespace TaskFlow.Services
             tarea.FechaActualizacion = DateTime.Now;
             GuardarTareas();
 
-            Console.WriteLine($"\n✓ Estado de la tarea {id} actualizado a '{nuevoEstado}'");
+            ConsoleHelper.MostrarExito($"\n✓ Estado de la tarea {id} actualizado a '{nuevoEstado}'");
         }
 
         private void CargarTareas()
@@ -100,7 +101,7 @@ namespace TaskFlow.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al cargar tareas: {ex.Message}");
+                ConsoleHelper.MostrarError($"Error al cargar tareas: {ex.Message}");
                 _tasks = new List<TaskItem>();
             }
         }
@@ -130,7 +131,7 @@ namespace TaskFlow.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al guardar tareas: {ex.Message}");
+                ConsoleHelper.MostrarError($"Error al guardar tareas: {ex.Message}");
             }
         }
 
@@ -146,19 +147,19 @@ namespace TaskFlow.Services
 
             if (tarea == null)
             {
-                Console.WriteLine($"\n✗ No existe una tarea con ID {id}");
+                ConsoleHelper.MostrarError($"\n✗ No existe una tarea con ID {id}");
                 return;
             }
 
             if (!EsResponsableValido(nuevoResponsable))
             {
-                Console.WriteLine("\n✗ Responsable inválido. Debe tener al menos 3 letras y no contener números, espacios al inicio o al final ni caracteres especiales.");
+                ConsoleHelper.MostrarError("\n✗ Responsable inválido. Debe tener al menos 3 letras y no contener números, espacios al inicio o al final ni caracteres especiales.");
                 return;
             }
 
             if (tarea.Responsable == nuevoResponsable)
             {
-                Console.WriteLine("\n⚠ El responsable ya es el mismo.");
+                ConsoleHelper.MostrarError("\n⚠ El responsable ya es el mismo.");
                 return;
             }
 
@@ -167,7 +168,7 @@ namespace TaskFlow.Services
 
             GuardarTareas();
 
-            Console.WriteLine($"\n✓ Responsable de la tarea {id} actualizado a '{nuevoResponsable}'");
+            ConsoleHelper.MostrarExito($"\n✓ Responsable de la tarea {id} actualizado a '{nuevoResponsable}'");
         }
         
     }
