@@ -20,7 +20,8 @@ namespace TaskFlow
                 Console.WriteLine("=== TaskFlow ===\n");
                 Console.WriteLine("1. Crear tarea");
                 Console.WriteLine("2. Listar tareas");
-                Console.WriteLine("3. Salir");
+                Console.WriteLine("3. Eliminar tarea");
+                Console.WriteLine("4. Salir");
                 Console.Write("\nElegí una opción: ");
 
                 string opcion = Console.ReadLine();
@@ -59,6 +60,21 @@ namespace TaskFlow
                         break;
 
                     case "3":
+                        Console.Clear();
+                        Console.WriteLine("=== Eliminar tarea ===\n");
+                        Console.Write("Ingresá el ID de la tarea a eliminar: ");
+                        if (int.TryParse(Console.ReadLine(), out int id))
+                        {
+                            taskService.EliminarTarea(id);
+                        }
+                        else
+                        {
+                        Console.WriteLine("\n✗ ID inválido.");
+                        }
+                        Console.ReadKey();
+                        break;
+
+                    case "4":
                         salir = true;
                     break;
 

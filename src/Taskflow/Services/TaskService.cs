@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaskFlow.Models;
@@ -47,6 +47,18 @@ namespace TaskFlow.Services
                 Console.WriteLine($"   Creada: {t.FechaCreacion:dd/MM/yyyy HH:mm} | Modificada: {(t.FechaActualizacion.HasValue ? t.FechaActualizacion.Value.ToString("dd/MM/yyyy HH:mm") : "Sin modificaciones")}");
                 Console.WriteLine(new string('-', 60));
             }
+        }
+
+        public void EliminarTarea(int id)
+        {
+            var tarea = _tasks.FirstOrDefault(t => t.Id == id);
+            if (tarea == null)
+            {
+                Console.WriteLine($"\n✗ No se encontró una tarea con ID {id}.");
+                return;
+            }
+            _tasks.Remove(tarea);
+            Console.WriteLine($"\n✓ Tarea '{tarea.Titulo}' eliminada correctamente.");
         }
     }
 }
