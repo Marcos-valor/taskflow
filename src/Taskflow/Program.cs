@@ -11,7 +11,7 @@ namespace TaskFlow
     class Program
     {
         static void Main(string[] args)
-        {
+        { 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             TaskService taskService = new TaskService();
             bool salir = false;

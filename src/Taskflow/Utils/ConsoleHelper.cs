@@ -13,7 +13,7 @@ namespace Taskflow.Utils
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════╗");
-            Console.WriteLine($"║  {titulo,-38}║");
+            Console.WriteLine($"║{titulo,-38}║");
             Console.WriteLine("╚══════════════════════════════════════╝");
             Console.ResetColor();
         }
@@ -47,7 +47,7 @@ namespace Taskflow.Utils
             Console.WriteLine("╠══════════════════════════════════════╣");
             foreach (var opcion in opciones)
             {
-                Console.WriteLine($"║  {opcion,-38}║");
+                Console.WriteLine($"║{opcion,-37}║");
             }
             Console.WriteLine("╚══════════════════════════════════════╝");
             Console.ResetColor();
