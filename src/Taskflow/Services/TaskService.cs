@@ -54,7 +54,7 @@ namespace TaskFlow.Services
                 return;
             }
 
-            ConsoleHelper.MostrarTitulo("\LISTADO DE TAREAS");
+            ConsoleHelper.MostrarTitulo("LISTADO DE TAREAS");
             foreach (var t in tareasFiltradas)
             {
                 ConsoleHelper.MostrarInfo($"ID: {t.Id} | Titulo: {t.Titulo} | Responsable: {t.Responsable} | Estado: {t.Estado}");
