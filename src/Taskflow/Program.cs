@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskFlow.Services;
+using Taskflow.Utils;
 
 namespace TaskFlow
 {
@@ -11,35 +12,35 @@ namespace TaskFlow
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             TaskService taskService = new TaskService();
             bool salir = false;
 
             while (!salir)
             {
-                Console.Clear();
-                Console.WriteLine("=== TaskFlow ===\n");
-                Console.WriteLine("1. Crear tarea");
-                Console.WriteLine("2. Listar tareas");
-                Console.WriteLine("3. Cambiar estado de tarea");
-                Console.WriteLine("4. Actualizar responsable");
-                Console.WriteLine("5. Salir");
-                Console.Write("\nElegí una opción: ");
+                ConsoleHelper.MostrarMenu(new string[]
+                {
+                    "1.➕ Crear nueva tarea",
+                    "2.📋 Listar tareas",
+                    "3.🔄 Cambiar estado de tarea",
+                    "4.👤 Actualizar responsable",
+                    "5.🚪 Salir"
+                });
 
                 string opcion = Console.ReadLine();
 
                 switch (opcion)
                 {
                     case "1":
-                        Console.Clear();
-                        Console.WriteLine("=== Crear nueva tarea ===\n");
+                        ConsoleHelper.MostrarTitulo("Crear nueva tarea");
 
                         Console.Write("Título (obligatorio): ");
                         string titulo = Console.ReadLine();
 
                         if (string.IsNullOrWhiteSpace(titulo))
                         {
-                            Console.WriteLine("\n✗ El título es obligatorio.");
-                            Console.ReadKey();
+                            ConsoleHelper.MostrarError("El título es obligatorio.");
+                            ConsoleHelper.Pausar();
                             break;
                         }
 
@@ -50,30 +51,28 @@ namespace TaskFlow
                         string responsable = Console.ReadLine();
 
                         taskService.CrearTarea(titulo, descripcion, responsable);
-                        Console.ReadKey();
+                        ConsoleHelper.Pausar();
                         break;
 
                     case "2":
-                        Console.Clear();
-                        Console.WriteLine("=== Listar tareas ===\n");
+                        ConsoleHelper.MostrarTitulo("Listar tareas");
                         taskService.ListarTareas();
-                        Console.ReadKey();
+                        ConsoleHelper.Pausar();
                         break;
 
                    
                     case "3":
-                        Console.Clear();
-                        Console.WriteLine("=== Cambiar estado de tarea ===\n");
+                        ConsoleHelper.MostrarTitulo("Cambiar estado de tarea");
 
                         Console.Write("ID de la tarea: ");
                         if (!int.TryParse(Console.ReadLine(), out int id))
                         {
-                            Console.WriteLine("ID inválido");
-                            Console.ReadKey();
+                            ConsoleHelper.MostrarError("ID inválido.");
+                            ConsoleHelper.Pausar();
                             break;
                         }
 
-                        Console.WriteLine("\nNuevo estado:");
+                        ConsoleHelper.MostrarInfo("Selecciona el nuevo estado:");
                         Console.WriteLine("1. Pendiente");
                         Console.WriteLine("2. En progreso");
                         Console.WriteLine("3. Completada");
@@ -91,32 +90,31 @@ namespace TaskFlow
 
                         if (nuevoEstado == null)
                         {
-                            Console.WriteLine("\n✗ Opción inválida.");
+                            ConsoleHelper.MostrarError("Opción de estado inválida.");
                         }
                         else
                         {
                             taskService.EstadoTarea(id, nuevoEstado);
                         }
 
-                        Console.ReadKey();
+                        ConsoleHelper.Pausar();
                         break;
 
                     case "4":
-                        Console.Clear();
-                        Console.WriteLine("=== Actualizar responsable ===\n");
+                        ConsoleHelper.MostrarTitulo("Actualizar responsable de tarea");
 
                         Console.Write("ID de la tarea: ");
                         if (!int.TryParse(Console.ReadLine(), out int idResponsable))
                         {
-                            Console.WriteLine("\n✗ ID inválido");
-                            Console.ReadKey();
+                            ConsoleHelper.MostrarError("ID inválido.");
+                            ConsoleHelper.Pausar();
                             break;
                         }
 
                         if (!taskService.ExisteTarea(idResponsable))
                         {
-                            Console.WriteLine($"\n✗ No existe una tarea con ID {idResponsable}");
-                            Console.ReadKey();
+                            ConsoleHelper.MostrarError("No existe una tarea con ese ID.");
+                            ConsoleHelper.Pausar();
                             break;
                         }
 
@@ -124,17 +122,17 @@ namespace TaskFlow
                         string nuevoResponsable = Console.ReadLine();
 
                         taskService.ActualizarResponsable(idResponsable, nuevoResponsable);
-
-                        Console.ReadKey();
+                        ConsoleHelper.Pausar();
                         break;
 
                     case "5":
+                        ConsoleHelper.MostrarInfo("¡Gracias por usar TaskFlow! Hasta luego.");
                         salir = true;
                         break;
 
                     default:
-                        Console.WriteLine("\n✗ Opción inválida.");
-                        Console.ReadKey();
+                        ConsoleHelper.MostrarError("Opción inválida. Por favor, selecciona una opción del menú.");
+                        ConsoleHelper.Pausar();
                         break;
                 }
             }
