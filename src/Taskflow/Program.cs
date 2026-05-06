@@ -56,10 +56,28 @@ namespace TaskFlow
                         break;
 
                     case "2":
-                        ConsoleHelper.MostrarTitulo("Listar tareas");
-                        taskService.ListarTareas();
-                        ConsoleHelper.Pausar();
-                        break;
+                    ConsoleHelper.MostrarTitulo("Listar tareas");
+    
+                    // Submenú de filtros
+                    ConsoleHelper.MostrarInfo("¿Qué tareas querés ver?");
+                    Console.WriteLine("  1. 📋 Todas las tareas");
+                    Console.WriteLine("  2. ⏳ Solo pendientes");
+                    Console.WriteLine("  3. 🔄 Solo en progreso");
+                    Console.WriteLine("  4. ✅ Solo completadas");
+                    Console.Write("\nElegí una opción: ");
+    
+                    string opcionFiltro = Console.ReadLine();
+                    string filtro = opcionFiltro switch
+                    {
+                        "2" => "pendiente",
+                        "3" => "en progreso",
+                        "4" => "completada",
+                        _ => "todas"
+                    };
+    
+                    taskService.ListarTareas(filtro);
+                    ConsoleHelper.Pausar();
+                    break;
 
                    
                     case "3":
