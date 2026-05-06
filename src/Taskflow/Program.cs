@@ -24,7 +24,8 @@ namespace TaskFlow
                     "2.📋 Listar tareas",
                     "3.🔄 Cambiar estado de tarea",
                     "4.👤 Actualizar responsable",
-                    "5.🚪 Salir"
+                    "5.🗑️ Eliminar tarea",
+                    "6.🚪 Salir"
                 });
 
                 string opcion = Console.ReadLine();
@@ -62,6 +63,7 @@ namespace TaskFlow
 
                    
                     case "3":
+                    {
                         ConsoleHelper.MostrarTitulo("Cambiar estado de tarea");
 
                         Console.Write("ID de la tarea: ");
@@ -71,6 +73,7 @@ namespace TaskFlow
                             ConsoleHelper.Pausar();
                             break;
                         }
+                    
 
                         ConsoleHelper.MostrarInfo("Selecciona el nuevo estado:");
                         Console.WriteLine("1. Pendiente");
@@ -99,6 +102,7 @@ namespace TaskFlow
 
                         ConsoleHelper.Pausar();
                         break;
+                    }
 
                     case "4":
                         ConsoleHelper.MostrarTitulo("Actualizar responsable de tarea");
@@ -124,8 +128,24 @@ namespace TaskFlow
                         taskService.ActualizarResponsable(idResponsable, nuevoResponsable);
                         ConsoleHelper.Pausar();
                         break;
-
                     case "5":
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== Eliminar tarea ===\n");
+                        Console.Write("Ingresá el ID de la tarea a eliminar: ");
+                        if (int.TryParse(Console.ReadLine(), out int id))
+                        {
+                            taskService.EliminarTarea(id);
+                        }
+                        else
+                        {
+                        Console.WriteLine("\n✗ ID inválido.");
+                        }
+                        Console.ReadKey();
+                        break;
+                    }   
+
+                    case "6":
                         ConsoleHelper.MostrarInfo("¡Gracias por usar TaskFlow! Hasta luego.");
                         salir = true;
                         break;

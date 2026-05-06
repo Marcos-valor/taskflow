@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -170,6 +170,16 @@ namespace TaskFlow.Services
 
             ConsoleHelper.MostrarExito($"\n✓ Responsable de la tarea {id} actualizado a '{nuevoResponsable}'");
         }
-        
+        public void EliminarTarea(int id)
+        {
+            var tarea = _tasks.FirstOrDefault(t => t.Id == id);
+            if (tarea == null)
+            {
+                Console.WriteLine($"\n✗ No se encontró una tarea con ID {id}.");
+                return;
+            }
+            _tasks.Remove(tarea);
+            Console.WriteLine($"\n✓ Tarea '{tarea.Titulo}' eliminada correctamente.");
+        }
     }
 }
